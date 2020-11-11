@@ -1,0 +1,26 @@
+<html>
+<script type="text/javascript">
+	async function main() {
+		in_canvas = document.body.appendChild(document.createElement('canvas'));
+		webgl = in_canvas.getContext('webgl', { xrCompatible: true });
+
+		session = await navigator.xr.requestSession('inline');
+		session.requestAnimationFrame(function(){})
+		viewer1 = await session.requestReferenceSpace('local');
+		await session.requestReferenceSpace('local');
+		await session.requestReferenceSpace('local');
+		await session.requestReferenceSpace('local');
+		viewer1.onreset = async function() {
+			for (var i = 0; i < 0x100; i++) {
+				a = await session.requestReferenceSpace('viewer');
+			}
+		}
+
+		session.updateRenderState({ 
+			baseLayer: new XRWebGLLayer(session, webgl)
+		});
+	}
+</script>
+<body onload="main();">
+</body>
+</html>
